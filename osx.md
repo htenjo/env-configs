@@ -13,6 +13,10 @@ Command	| Description
 `$ du -sm /* (sum dirs)` | Check disk space
 `$ textutil -font 'courier' -fontsize 7 -convert html Tickets.txt | cupsfilter -i text/html -m application/pdf Tickets.html > Tickets.pdf`| Takes a txt file and transform it to an html document, once the html file is ready converts it in a pdf file (all native in OSX).
 
+## Key combinations
+Keys | Description
+---- | -----------
+`cmd + shift + .` | Display hidden files (.***)
 
 ### General configurations
 #### Increase the magic mouse speed (higher number is faster)
