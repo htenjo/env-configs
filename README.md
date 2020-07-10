@@ -1,5 +1,5 @@
 # General commands
-This repository is just a reminder on how to execute some basic commands I always forget.
+This repo is all about to remember daily commands and useful procedures that make your life easier as a developer.
 
 ### Command Types:
 - [Docker](./docker.md)
