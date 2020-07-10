@@ -10,7 +10,7 @@
 | `$ find . -type d -ls`                                   | List all directories from the current position |
 | `$ unalias -a`                                           | Delete all user alias                          |
 | `$ zip -r file.zip directoryToZip`                       | zip a directory                                |
-| <code>$ ls *.png | wc -l`</code>                                    | Count files by extension                       |
-| `$ find . -type f | sed -n 's/..*\.//p'| sort | uniq -c` | Count all files grouping by type               |
+| <code>$ ls *.png | wc -l</code>                                    | Count files by extension                       |
+| <code>$ find . -type f | sed -n 's/..*\.//p'| sort | uniq -c</code> | Count all files grouping by type               |
 | `$ df`                                                   | disk free from metadata                        |
 | `$ du -sm /* (sum dirs)`                                 | Check disk space                               |
