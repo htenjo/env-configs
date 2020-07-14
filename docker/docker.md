@@ -46,11 +46,12 @@ GET http://localhost:8091 (user: 'Administrator' y pass: 'password')
 | `$ docker pull couchbase`                                                         | Download couchbase image   |
 | `$ docker run -d --name my-couch -p 8091-8094:8091-8094 -p 11210:11210 couchbase` | Download and run couchbase |
 
-# PostgreSQL
-| Description                                                                                  | Command                   |
-| -------------------------------------------------------------------------------------------- | ------------------------- |
-| `$ docker pull Postgres`                                                                     | Download Postgres         |
-| `$ docker run --name postgres-tamiz -e POSTGRES_PASSWORD=123456789 -p 5432:5432 -d postgres` | Download and run postgres |
+## PostgreSQL
+| Description                                                                                  | Command                       |
+| -------------------------------------------------------------------------------------------- | ----------------------------- |
+| `$ docker pull Postgres`                                                                     | Download Postgres             |
+| `$ docker run --name postgres-tamiz -e POSTGRES_PASSWORD=123456789 -p 5432:5432 -d postgres` | Download and run postgres     |
+| `$ docker-compose -f postgresql_compose.yml up`                                              | Start Postgres with docker compose config|
 
 
 ## Jenkins
@@ -63,3 +64,12 @@ GET http://localhost:8091 (user: 'Administrator' y pass: 'password')
 | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | `$ docker run -p 9000:9000 minio/minio server /data`                                                                             | Download and run Min.io |
 | `docker run -p 9000:9000 --name minio_bk -e "MINIO_ACCESS_KEY=USERNAME" -e "MINIO_SECRET_KEY=PASSWORD" minio/minio server /data` | Run configured          |
+
+## Kafka
+| Command                                                                                                    | Description                      |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `$ docker-compose -f [kafka-docker-compose.yml](kafka-docker-compose.yml) up -d`                           | Start kafka and zookeeper        |
+| `$ docker exec -it apache-kafka_kafka_1 bash`                                                              | Open bash inside kafka container |
+| `$ kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test` | Create a topic                   |
+| `$ kafka-console-producer.sh --broker-list localhost:9092 --topic test`                                    | Create a topic producer          |
+| `$ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test`                               | Create a topic consumer          |
