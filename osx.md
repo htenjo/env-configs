@@ -12,7 +12,7 @@ Almost all following commands implies copy and paste in Terminal.
 | Display hidden files (.***)                              | `-> cmd + shift + .`                                                                                      |
 
 ## Other useful configurations 
-- .bash_profile
+- .bash_profile (DEPRECATED - Use the new zsh plugins instead)
 ```bash
     ## ====================================================================
     ## Git completion config START            
