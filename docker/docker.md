@@ -49,7 +49,7 @@ GET http://localhost:8091 (user: 'Administrator' y pass: 'password')
 ## PostgreSQL
 | Description                                                                                  | Command                       |
 | -------------------------------------------------------------------------------------------- | ----------------------------- |
-| `$ docker pull Postgres`                                                                     | Download Postgres             |
+| `$ docker pull postgres`                                                                     | Download Postgres             |
 | `$ docker run --name postgres-tamiz -e POSTGRES_PASSWORD=123456789 -p 5432:5432 -d postgres` | Download and run postgres     |
 | `$ docker-compose -f postgresql_compose.yml up`                                              | Start Postgres with docker compose config|
 
