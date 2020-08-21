@@ -2,13 +2,13 @@
 Some Tips: https://docs.plone.org/develop/coredev/docs/git.html#making-commits
 
 ## Configuration commands
-| Type   | Description                        | Command                                           |
-| ------ | ---------------------------------- | ------------------------------------------------- |
-| Config | Configure vscode as default editor | `$ git config --global core.editor "code --wait"` |
-| Config | Enable git colors                  | `$ git config --global color.ui true`             |
-| Config | Configure commit user              | `$ git config --global user.name`                 |
-| Config | Show local configurations          | `$ git config -e`                                 |
-| Config | Show Global configurations         | `$ git config --global -e`                        |
+| Type   | Description                          | Command                                           |
+| ------ | ------------------------------------ | ------------------------------------------------- |
+| Config | Configure vscode as default editor   | `$ git config --global core.editor "code --wait"` |
+| Config | Enable git colors                    | `$ git config --global color.ui true`             |
+| Config | Configure commit user                | `$ git config --global user.name`                 |
+| Config | Open configurations in editor        | `$ git config -e`, `$ git config --global -e`     |
+| Config | List all config properties           | `$ git config -l`, `$ git config --local -l`      |
 
 ## Commands related with branch handling
 | Type    | Description                                                      | Command                                                   |
