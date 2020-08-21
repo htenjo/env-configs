@@ -7,6 +7,8 @@ Some Tips: https://docs.plone.org/develop/coredev/docs/git.html#making-commits
 | Config | Configure vscode as default editor | `$ git config --global core.editor "code --wait"` |
 | Config | Enable git colors                  | `$ git config --global color.ui true`             |
 | Config | Configure commit user              | `$ git config --global user.name`                 |
+| Config | Show local configurations          | `$ git config -e`                                 |
+| Config | Show Global configurations         | `$ git config --global -e`                        |
 
 ## Commands related with branch handling
 | Type    | Description                                                      | Command                                                   |
@@ -17,7 +19,7 @@ Some Tips: https://docs.plone.org/develop/coredev/docs/git.html#making-commits
 | Branch  | Delete local branch                                              | `$ git branch -d [-D to force] <branch_name>`             |
 | Branch  | Delete remote branch                                             | `$ git push -d [-D to force] <remote_name> <branch_name>` |
 | Branch  | Display all branches                                             | `$ git branch -a`                                         |
-| Branch  | List all branches that have been merged into the current branch. | <code>$ git branch | --merged</code>  |
+| Branch  | List all branches that have been merged into the current branch. | <code>$ git branch --merged</code>                        |
 | Branch  | List references that could be deleted from local                 | `$ git remote prune origin --dry-run`                     |
 | Branch  | Delete references not present on remote                          | `$ git remote prune origin`                               |
 | Remotes | List all remotes configured                                      | `$ git remote -v `                                        |
