@@ -2,13 +2,13 @@
 Some Tips: https://docs.plone.org/develop/coredev/docs/git.html#making-commits
 
 ## Configuration commands
-| Type   | Description                          | Command                                           |
-| ------ | ------------------------------------ | ------------------------------------------------- |
-| Config | Configure vscode as default editor   | `$ git config --global core.editor "code --wait"` |
-| Config | Enable git colors                    | `$ git config --global color.ui true`             |
-| Config | Configure commit user                | `$ git config --global user.name`                 |
-| Config | Open configurations in editor        | `$ git config -e`, `$ git config --global -e`     |
-| Config | List all config properties           | `$ git config -l`, `$ git config --local -l`      |
+| Type   | Description                        | Command                                           |
+| ------ | ---------------------------------- | ------------------------------------------------- |
+| Config | Configure vscode as default editor | `$ git config --global core.editor "code --wait"` |
+| Config | Enable git colors                  | `$ git config --global color.ui true`             |
+| Config | Configure commit user              | `$ git config --global user.name`                 |
+| Config | Open configurations in editor      | `$ git config -e`, `$ git config --global -e`     |
+| Config | List all config properties         | `$ git config -l`, `$ git config --local -l`      |
 
 ## Commands related with branch handling
 | Type    | Description                                                      | Command                                                   |
@@ -42,13 +42,24 @@ Some Tips: https://docs.plone.org/develop/coredev/docs/git.html#making-commits
 | Commit | To revert a rebase already pushed             | `$ $ git reflog <branch>` -> `$ git push -f`                   |
 | Commit | To Solve problem when new repos have problems | `$ git pull origin branchname --allow-unrelated-histories`     |
 
+## Commands related with submodules
+| Type       | Description                            | Command               |
+| ---------- | -------------------------------------- | --------------------- |
+| Submodules | Add a new submodule pointing to master | `$ git submodule add -b master <REMOTE_REPOSITORY> <FOLDER_IN_CURRENT_PROJECT>` |
+
 ## General procedures
 - To change the author history  
   1. `$ git rebase -i X`
   1. `$ git commit --amend --author="<NAME> <EMAIL>" --no-edit`
   1. `$ git rebase --continue`
-  1. `$ git stash save YOUR_MESSAGE`F
+  1. `$ git stash save YOUR_MESSAGE`  
 - Delete all local branches not present on remote  
      `$ git branch --merged | grep -v "master" | grep -v "develop" > /tmp/merged-branches && vi /tmp/merged-branches && xargs git branch -d < /tmp/merged-branches`
 - Delete all local branches with remote branch GONE  
     `$ git fetch -p&& for branch in 'git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'``; do git branch -D $branch; done`
+
+- Remove submodules completely
+  - `$ git submodule deinit public`
+  - `$ git rm -r public`
+  - `$ git commit -m "Removed submodule public"`
+  - `$ rm -rf .git/modules/public`
