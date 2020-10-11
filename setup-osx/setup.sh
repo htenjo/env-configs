@@ -42,7 +42,7 @@ echo ::: Checking JEnv
 if  read -q "?Would you like to install JEnv? (y/n): "  ; then
 	echo ::: Installing JEnv
 	brew install jenv
-	echo 'eval "$(jenv init -)"' >> /Users/hernan.tenjo/.zshrc
+	echo 'eval "$(jenv init -)"' >> ~/.zshrc
 	jenv enable-plugin export
 	jenv enable-plugin maven
 	echo "::: JEnv OK - To add additional JDKs check:"
@@ -130,16 +130,26 @@ if  read -q "?Would you like to install VSCode? (y/n): "  ; then
 	brew cask install visual-studio-code
 fi;
 
-if  read -q "?Would you like to install VSCode Extensions? (y/n): "  ; then
+
+if  read -q "?Would you like to install generic VSCode Extensions? (y/n): "  ; then
+    echo "::: Installing VSCode Extensions ..."
+	code --install-extension 
+	code --install-extension DotJoshJohnson.xml
+	code --install-extension PKief.material-icon-theme
+	code --install-extension yzhang.markdown-all-in-one
+	code --install-extension VisualStudioExptTeam.vscodeintellicode
+fi;
+
+if  read -q "?Would you like to install Flutter VSCode Extensions? (y/n): "  ; then
     echo "::: Installing VSCode Extensions ..."
 	code --install-extension 
 	code --install-extension Dart-Code.flutter
-	code --install-extension DotJoshJohnson.xml
-	code --install-extension ms-python.python
-	code --install-extension PKief.material-icon-theme
-	code --install-extension yzhang.markdown-all-in-one
+fi;
+
+if  read -q "?Would you like to install Java VSCode Extensions? (y/n): "  ; then
+    echo "::: Installing VSCode Extensions ..."
+	code --install-extension 
 	code --install-extension redhat.java
-	code --install-extension VisualStudioExptTeam.vscodeintellicode
 	code --install-extension vscjava.vscode-java-debug
 	code --install-extension vscjava.vscode-java-dependency
 	code --install-extension vscjava.vscode-java-pack
