@@ -2,6 +2,8 @@
 
 set -e
 
+ENV_FILE=$HOME/.zshrc
+
 echo "######################################################################"
 echo "::: Installing OSX Basics"
 echo "######################################################################"
@@ -42,8 +44,8 @@ echo ::: Checking JEnv
 if  read -q "?Would you like to install JEnv? (y/n): "  ; then
 	echo ::: Installing JEnv
 	brew install jenv
-	echo 'eval "$(jenv init -)"' >> ~/.zshrc
-	source ~/.zshrc
+	echo 'eval "$(jenv init -)"' >> $ENV_FILE
+	source $ENV_FILE
 	jenv enable-plugin export
 	jenv enable-plugin maven
 	echo "::: JEnv OK - To add additional JDKs check:"
@@ -83,6 +85,20 @@ if  read -q "?Would you like to install IntelliJ? (y/n): "  ; then
     echo "::: Installing IntelliJ ..."
     brew install --cask intellij-idea
 	echo ::: IntelliJ OK
+fi;
+
+echo ::: Checking Go
+if read -q "?Would you like to install Go (y/n) " ; then
+	echo "::: Installing Go ..."
+    brew install golang
+	echo '::: Configuring Go ...'
+	mkdir -p $HOME/go/{bin,src,pkg}
+	echo "export GOPATH=$HOME/go" >> $ENV_FILE
+	echo "export GOROOT=$(brew --prefix golang)/libexec" >> $ENV_FILE
+	echo "export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin" >> $ENV_FILE
+	source $ENV_FILE
+
+	echo ::: Go OK
 fi;
 
 echo ""
@@ -162,6 +178,15 @@ fi;
 if  read -q "?Would you like to install Docker? (y/n): "  ; then
 	echo "::: Installing Docker ..."
 	brew install --cask docker
+fi;
+
+echo ::: Checking Terraform...
+if  read -q "?Would you like to install Terraform? (y/n): "  ; then
+    echo "::: Installing Terraform ..."
+    brew tap hashicorp/tap
+	brew install hashicorp/tap/terraform
+	brew upgrade hashicorp/tap/terraform
+	echo ::: Terraform OK
 fi;
 
 if  read -q "?Would you like to install Flutter? (y/n): "  ; then
