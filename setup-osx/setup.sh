@@ -2,6 +2,8 @@
 
 set -e
 
+ENV_FILE=$HOME/.zshrc
+
 echo "######################################################################"
 echo "::: Installing OSX Basics"
 echo "######################################################################"
@@ -42,7 +44,8 @@ echo ::: Checking JEnv
 if  read -q "?Would you like to install JEnv? (y/n): "  ; then
 	echo ::: Installing JEnv
 	brew install jenv
-	echo 'eval "$(jenv init -)"' >> ~/.zshrc
+	echo 'eval "$(jenv init -)"' >> $ENV_FILE
+	source $ENV_FILE
 	jenv enable-plugin export
 	jenv enable-plugin maven
 	echo "::: JEnv OK - To add additional JDKs check:"
@@ -51,14 +54,15 @@ if  read -q "?Would you like to install JEnv? (y/n): "  ; then
 fi
 
 if  read -q "?Would you like to install the Oracle JDK 14? (y/n): "  ; then
-	brew cask install oracle-jdk
+	brew install --cask oracle-jdk
 	echo "::: Oracle JDK OK"
 	jenv add $(/usr/libexec/java_home)
 	jenv versions
 fi;
 
 if  read -q "?Would you like to install OpenJDK 8? (y/n): "  ; then
-	brew cask install adoptopenjdk8
+	brew tap adoptopenjdk/openjdk
+	brew install --cask adoptopenjdk8
 	echo "::: OpenJDK 8 OK"
 fi;
 
@@ -79,8 +83,22 @@ fi
 echo ::: Checking IntelliJ...
 if  read -q "?Would you like to install IntelliJ? (y/n): "  ; then
     echo "::: Installing IntelliJ ..."
-    brew cask install intellij-idea
+    brew install --cask intellij-idea
 	echo ::: IntelliJ OK
+fi;
+
+echo ::: Checking Go
+if read -q "?Would you like to install Go (y/n) " ; then
+	echo "::: Installing Go ..."
+    brew install golang
+	echo '::: Configuring Go ...'
+	mkdir -p $HOME/go/{bin,src,pkg}
+	echo "export GOPATH=$HOME/go" >> $ENV_FILE
+	echo "export GOROOT=$(brew --prefix golang)/libexec" >> $ENV_FILE
+	echo "export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin" >> $ENV_FILE
+	source $ENV_FILE
+
+	echo ::: Go OK
 fi;
 
 echo ""
@@ -118,7 +136,7 @@ echo "######################################################################"
 
 if  read -q "?Would you like to install iTerm2? (y/n): "  ; then
     echo "::: Installing iTerm2 ..."
-	brew cask install iterm2
+	brew install --cask iterm2
 	echo "::: Downloading themes from https://iterm2colorschemes.com"
 	# wget -O iterm2colorschemes https://github.com/mbadolato/iTerm2-Color-Schemes/zipball/master
 	wget -O homebrewTheme.itermcolors https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Homebrew.itermcolors
@@ -127,7 +145,7 @@ fi;
 
 if  read -q "?Would you like to install VSCode? (y/n): "  ; then
     echo "::: Installing VSCode ..."
-	brew cask install visual-studio-code
+	brew install --cask visual-studio-code
 fi;
 
 
@@ -159,7 +177,16 @@ fi;
 
 if  read -q "?Would you like to install Docker? (y/n): "  ; then
 	echo "::: Installing Docker ..."
-	brew cask install docker
+	brew install --cask docker
+fi;
+
+echo ::: Checking Terraform...
+if  read -q "?Would you like to install Terraform? (y/n): "  ; then
+    echo "::: Installing Terraform ..."
+    brew tap hashicorp/tap
+	brew install hashicorp/tap/terraform
+	brew upgrade hashicorp/tap/terraform
+	echo ::: Terraform OK
 fi;
 
 if  read -q "?Would you like to install Flutter? (y/n): "  ; then
@@ -182,17 +209,17 @@ echo "######################################################################"
 
 if  read -q "?Would you like to install Slack? (y/n): "  ; then
     echo "::: Installing Slack ..."
-	brew cask install slack
+	brew install --cask slack
 fi;
 
 if  read -q "?Would you like to install Chrome? (y/n): "  ; then
     echo "::: Installing Google Chrome ..."
-	brew cask install google-chrome
+	brew install --cask google-chrome
 fi;
 
 if  read -q "?Would you like to install DBeaver? (y/n): "  ; then
 	echo "::: Installing DBeaver ..."
-	brew cask install dbeaver-community
+	brew install --cask dbeaver-community
 fi;
 
 echo ""
@@ -201,37 +228,37 @@ echo "::: Installing Other Apps"
 echo "######################################################################"
 if  read -q "?Would you like to install Spotify? (y/n): "  ; then
 	echo "::: Installing Spotify ..."
-	brew cask install spotify
+	brew install --cask spotify
 fi;
 
 if  read -q "?Would you like to install Unarchiver? (y/n): "  ; then
 	echo "::: Installing Unarchiver ..."
-	brew cask install the-unarchiver
+	brew install --cask the-unarchiver
 fi;
 
 if  read -q "?Would you like to install Postman? (y/n): "  ; then
 	echo "::: Installing Postman ..."
-	brew cask install postman
+	brew install --cask postman
 fi;
 
 if  read -q "?Would you like to install VLC? (y/n): "  ; then
 	echo "::: Installing VLC ..."
-	brew cask install vlc
+	brew install --cask vlc
 fi;
 
 if  read -q "?Would you like to install PgAdmin4? (y/n): "  ; then
 	echo "::: Installing PgAdmin4 ..."
-	brew cask install pgAdmin4
+	brew install --cask pgAdmin4
 fi;
 
 if  read -q "?Would you like to install Whatsapp? (y/n): "  ; then
 	echo "::: Installing Whatsapp ..."
-	brew cask install whatsapp
+	brew install --cask whatsapp
 fi;
 
 if  read -q "?Would you like to install Webex? (y/n): "  ; then
 	echo "::: Installing Webex ..."
-	brew cask install webex-meetings
+	brew install --cask webex-meetings
 fi;
 
 echo ""
