@@ -4,295 +4,491 @@ set -e
 
 ENV_FILE=$HOME/.zshrc
 
-echo "######################################################################"
-echo "::: Installing OSX Basics"
-echo "######################################################################"
-echo ""
-echo ::: To install everything type your ADMIN password:
-sudo -v
-echo ""
-echo "::: Updating your MacBookPro "
-echo ::: If restart is required, run this script again!
-echo ""
-if read -q "?Would you like to update you OSX? (y/n): " ; then
+requestPrivileges() {
+  echo "::: To install everything type your ADMIN password:"
+  sudo -v
+  echo "::: Updating your MacBookPro -> If restart is required, RUN THIS SCRIPT AGAIN!"
+}
+
+setupOsxUpdates() {
+  if read -q "?Would you like to update you OSX? (y/n): " ; then
     echo "::: Updating OSX ..."
-	sudo softwareupdate -ia --verbose
-fi;
+  	sudo softwareupdate -ia --verbose
+  else
+    echo
+  fi;
+}
 
-if  read -q "?Would you like to install Xcode DevTools? (y/n): "  ; then
-	echo ::: Installing Xcode Command Line Tools
-	xcode-select --install
-fi;
+setupXCode() {
+  if  read -q "?Would you like to install Xcode DevTools? (y/n): "  ; then
+    echo "::: Installing Xcode Command Line Tools"
+    xcode-select --install
+  else
+    echo
+  fi;
+}
 
-if  read -q "?Would you like to install CocoaPods DevTools? (y/n): "  ; then
-	echo ::: Installing CocoaPods
-	sudo gem install cocoapods
-fi;
+setupCocoaPods() {
+  if  read -q "?Would you like to install CocoaPods DevTools? (y/n): "  ; then
+  	echo "::: Installing CocoaPods"
+  	sudo gem install cocoapods
+  else
+    echo
+  fi;
+}
 
-echo "::: Homebrew Devtools"
-if  read -q "?Would you like to install homebrew dev tools? (y/n): "  ; then
-	echo ::: Installing homebrew
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-fi;
+setupHomebrew() {
+  if  read -q "?Would you like to install homebrew dev tools? (y/n): "  ; then
+  	echo "::: Installing homebrew"
+  	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  else
+    echo
+  fi;
+}
 
-echo ""
-echo "######################################################################"
-echo "::: Installing Java Tools"
-echo "######################################################################"
-echo ::: Checking Java...
-echo ::: Checking JEnv
-if  read -q "?Would you like to install JEnv? (y/n): "  ; then
-	echo ::: Installing JEnv
-	brew install jenv
-	echo 'eval "$(jenv init -)"' >> $ENV_FILE
-	source $ENV_FILE
-	jenv enable-plugin export
-	jenv enable-plugin maven
-	echo "::: JEnv OK - To add additional JDKs check:"
-	echo "- https://github.com/jenv/jenv"
-	echo "- http://139.117.146.31/blog/configuring-jenv-the-right-way/"
-fi
+setupJEnv() {
+  if  read -q "?Would you like to install JEnv? (y/n): "  ; then
+  	echo ::: Installing JEnv
+  	brew install jenv
+  	echo 'eval "$(jenv init -)"' >> $ENV_FILE
+  	source $ENV_FILE
+  	jenv enable-plugin export
+  	jenv enable-plugin maven
+  	echo "::: JEnv OK - To add additional JDKs check: $ jenv add JDK-HOME"
+  	echo "- https://github.com/jenv/jenv"
+  	echo "- http://139.117.146.31/blog/configuring-jenv-the-right-way/"
+  else
+    echo
+  fi
+}
 
-if  read -q "?Would you like to install the Oracle JDK 14? (y/n): "  ; then
-	brew install --cask oracle-jdk
-	echo "::: Oracle JDK OK"
-	jenv add $(/usr/libexec/java_home)
-	jenv versions
-fi;
+setupOracleJDK() {
+  if  read -q "?Would you like to install the Oracle JDK? (y/n): "  ; then
+  	brew install --cask oracle-jdk
+  	echo "::: Oracle JDK OK"
+  	jenv add $(/usr/libexec/java_home)
+  	jenv versions
+  else
+    echo
+  fi;
+}
 
-if  read -q "?Would you like to install OpenJDK 8? (y/n): "  ; then
-	brew tap adoptopenjdk/openjdk
-	brew install --cask adoptopenjdk8
-	echo "::: OpenJDK 8 OK"
-fi;
+setupOpenJDK() {
+  if  read -q "?Would you like to install OpenJDK 8? (y/n): "  ; then
+  	brew tap adoptopenjdk/openjdk
+  	brew install --cask adoptopenjdk8
+  	echo "::: OpenJDK 8 OK"
+  else
+    echo
+  fi;
+}
 
-echo ::: Checking Maven
-if  read -q "?Would you like to install Maven? (y/n): "  ; then
-	echo "::: Installing Maven..."
-	brew install maven
-	echo "::: Maven OK"
-fi
+setupMaven() {
+  if  read -q "?Would you like to install Maven? (y/n): "  ; then
+  	echo "::: Installing Maven..."
+  	brew install maven
+  	echo "::: Maven OK"
+  else
+    echo
+  fi
+}
 
-echo ::: Checking Gradle
-if  read -q "?Would you like to install Gradle? (y/n): "  ; then
-	echo ::: Installing Gradle
-	brew install gradle
-	echo ::: Gradle OK
-fi
+setupGradle() {
+  if  read -q "?Would you like to install Gradle? (y/n): "  ; then
+  	echo "::: Installing Gradle"
+  	brew install gradle
+  	echo "::: Gradle OK"
+  else
+    echo
+  fi
+}
 
-echo ::: Checking IntelliJ...
-if  read -q "?Would you like to install IntelliJ? (y/n): "  ; then
-    echo "::: Installing IntelliJ ..."
+setupIntelliJCE() {
+  if  read -q "?Would you like to install IntelliJ CE? (y/n): "  ; then
+    echo "::: Installing IntelliJ CE..."
     brew install --cask intellij-idea
-	echo ::: IntelliJ OK
-fi;
+    echo "::: IntelliJ OK"
+  else
+    echo
+  fi;
+}
 
-echo ::: Checking Go
-if read -q "?Would you like to install Go (y/n) " ; then
-	echo "::: Installing Go ..."
+setupGo() {
+  if read -q "?Would you like to install Go (y/n) " ; then
+  	echo "::: Installing Go ..."
     brew install golang
-	echo '::: Configuring Go ...'
-	mkdir -p $HOME/go/{bin,src,pkg}
-	echo "export GOPATH=$HOME/go" >> $ENV_FILE
-	echo "export GOROOT=$(brew --prefix golang)/libexec" >> $ENV_FILE
-	echo "export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin" >> $ENV_FILE
-	source $ENV_FILE
+  	echo '::: Configuring Go ...'
+  	mkdir -p $HOME/go/{bin,src,pkg}
+  	echo "export GOPATH=$HOME/go" >> $ENV_FILE
+  	echo "export GOROOT=$(brew --prefix golang)/libexec" >> $ENV_FILE
+  	echo "export PATH=$PATH:${GOPATH}/bin:${GOROOT}/bin" >> $ENV_FILE
+  	source $ENV_FILE
+  	echo "::: Go OK"
+  else
+    echo
+  fi;
+}
 
-	echo ::: Go OK
-fi;
-
-echo ""
-echo "######################################################################"
-echo "::: Installing Web Tools"
-echo "######################################################################"
-if  read -q "?Would you like to install NodeJS? (y/n): "  ; then
-	echo ::: Installing NodeJS...
-	brew install node
-	echo ::: NodeJS OK
-fi
-
-if  read -q "?Would you like to install  Yarn? (y/n): "  ; then
-    echo "::: Installing Yarn ..."
-	brew install yarn
-	echo ::: Yarn OK
-fi;
-
-if  read -q "?Would you like to install Gulp? (y/n): "  ; then
-    echo "::: Installing Gulp ..."
-	npm install -g gulp-cli
-	echo ::: Gulp OK
-fi;
-
-if  read -q "?Would you like to install WGet? (y/n): "  ; then
-    echo "::: Installing WGet ..."
-	brew install wget
-	echo ::: Wget OK
-fi;
-
-echo ""
-echo "######################################################################"
-echo "::: Installing Additional DevTools"
-echo "######################################################################"
-
-if  read -q "?Would you like to install iTerm2? (y/n): "  ; then
-    echo "::: Installing iTerm2 ..."
-	brew install --cask iterm2
-	echo "::: Downloading themes from https://iterm2colorschemes.com"
-	# wget -O iterm2colorschemes https://github.com/mbadolato/iTerm2-Color-Schemes/zipball/master
-	wget -O homebrewTheme.itermcolors https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Homebrew.itermcolors
-	wget -O JetBrainsTheme.itermcolors https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/JetBrains%20Darcula.itermcolors
-fi;
-
-if  read -q "?Would you like to install VSCode? (y/n): "  ; then
-    echo "::: Installing VSCode ..."
-	brew install --cask visual-studio-code
-fi;
-
-
-if  read -q "?Would you like to install generic VSCode Extensions? (y/n): "  ; then
-    echo "::: Installing VSCode Extensions ..."
-	code --install-extension 
-	code --install-extension DotJoshJohnson.xml
-	code --install-extension PKief.material-icon-theme
-	code --install-extension yzhang.markdown-all-in-one
-	code --install-extension VisualStudioExptTeam.vscodeintellicode
-fi;
-
-if  read -q "?Would you like to install Flutter VSCode Extensions? (y/n): "  ; then
-    echo "::: Installing VSCode Extensions ..."
-	code --install-extension 
-	code --install-extension Dart-Code.flutter
-fi;
-
-if  read -q "?Would you like to install Java VSCode Extensions? (y/n): "  ; then
-    echo "::: Installing VSCode Extensions ..."
-	code --install-extension 
-	code --install-extension redhat.java
-	code --install-extension vscjava.vscode-java-debug
-	code --install-extension vscjava.vscode-java-dependency
-	code --install-extension vscjava.vscode-java-pack
-	code --install-extension vscjava.vscode-java-test
-	code --install-extension vscjava.vscode-maven
-fi;
-
-if  read -q "?Would you like to install Docker? (y/n): "  ; then
-	echo "::: Installing Docker ..."
-	brew install --cask docker
-fi;
-
-echo ::: Checking Terraform...
-if  read -q "?Would you like to install Terraform? (y/n): "  ; then
-    echo "::: Installing Terraform ..."
-    brew tap hashicorp/tap
-	brew install hashicorp/tap/terraform
-	brew upgrade hashicorp/tap/terraform
-	echo ::: Terraform OK
-fi;
-
-if  read -q "?Would you like to install Flutter? (y/n): "  ; then
+setupFlutter() {
+  if  read -q "?Would you like to install Flutter? (y/n): "  ; then
     echo "::: Downloading Flutter ..."
-	wget https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_1.20.1-stable.zip
-	mv flutter_macos_1.20.1-stable.zip flutter.zip
-	unzip fluter.zip
-	mv flutter  ~/DevTools/fluter
-	echo "::: Configuring Flutter ..."
-	export PATH=$PATH:~/DevTools/flutter/bin
-	flutter precache
-	flutter doctor
-	echo "::: Flutter OK..."
-fi;
+  	wget https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_1.20.1-stable.zip
+  	mv flutter_macos_1.20.1-stable.zip flutter.zip
+  	unzip fluter.zip
+  	mv flutter  ~/DevTools/fluter
+  	echo "::: Configuring Flutter ..."
+  	export PATH=$PATH:~/DevTools/flutter/bin
+  	flutter precache
+  	flutter doctor
+  	echo "::: Flutter OK..."
+  else
+    echo
+  fi;
+}
 
-echo ""
-echo "######################################################################"
-echo "::: Installing desktop Apps"
-echo "######################################################################"
+setupNodeJS() {
+  if  read -q "?Would you like to install NodeJS? (y/n): "  ; then
+  	echo "::: Installing NodeJS..."
+  	brew install node
+  	echo "::: NodeJS OK"
+  else
+    echo
+  fi
+}
 
-if  read -q "?Would you like to install Slack? (y/n): "  ; then
+setupYarn() {
+  if  read -q "?Would you like to install Yarn? (y/n): "  ; then
+    echo "::: Installing Yarn ..."
+  	brew install yarn
+  	echo "::: Yarn OK"
+  else
+    echo
+  fi;
+}
+
+setupGulp() {
+  if  read -q "?Would you like to install Gulp? (y/n): "  ; then
+    echo "::: Installing Gulp ..."
+  	npm install -g gulp-cli
+  	echo "::: Gulp OK"
+  else
+    echo
+  fi;
+}
+
+setupWGet() {
+  if  read -q "?Would you like to install WGet? (y/n): "  ; then
+    echo "::: Installing WGet ..."
+  	brew install wget
+  	echo "::: Wget OK"
+  else
+    echo
+  fi;
+}
+
+setupITerm() {
+  if  read -q "?Would you like to install iTerm2? (y/n): "  ; then
+    echo "::: Installing iTerm2 ..."
+  	brew install --cask iterm2
+  	echo "::: Downloading themes from https://iterm2colorschemes.com"
+  	# wget -O iterm2colorschemes https://github.com/mbadolato/iTerm2-Color-Schemes/zipball/master
+  	wget -O homebrewTheme.itermcolors https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Homebrew.itermcolors
+  	wget -O JetBrainsTheme.itermcolors https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/JetBrains%20Darcula.itermcolors
+  else
+    echo
+  fi;
+}
+
+setupVSCode() {
+  if  read -q "?Would you like to install VSCode? (y/n): "  ; then
+    echo "::: Installing VSCode ..."
+  	brew install --cask visual-studio-code
+  else
+    echo
+  fi;
+}
+
+setupVSCodeExtensions() {
+  if  read -q "?Would you like to install Material, Markdown, and basic-generic VSCode Extensions? (y/n): "  ; then
+    echo "::: Installing VSCode Extensions ..."
+  	code --install-extension
+  	code --install-extension DotJoshJohnson.xml
+  	code --install-extension PKief.material-icon-theme
+  	code --install-extension yzhang.markdown-all-in-one
+  	code --install-extension VisualStudioExptTeam.vscodeintellicode
+  else
+    echo
+  fi;
+}
+
+setupVsCodeFlutterExtension() {
+  if  read -q "?Would you like to install Flutter VSCode Extensions? (y/n): "  ; then
+    echo "::: Installing VSCode Extensions ..."
+  	code --install-extension
+  	code --install-extension Dart-Code.flutter
+  else
+    echo
+  fi;
+}
+
+setupVsCodeJavaExtension() {
+  if  read -q "?Would you like to install Java VSCode Extensions? (y/n): "  ; then
+    echo "::: Installing VSCode Extensions ..."
+  	code --install-extension
+  	code --install-extension redhat.java
+  	code --install-extension vscjava.vscode-java-debug
+  	code --install-extension vscjava.vscode-java-dependency
+  	code --install-extension vscjava.vscode-java-pack
+  	code --install-extension vscjava.vscode-java-test
+  	code --install-extension vscjava.vscode-maven
+  else
+    echo
+  fi;
+}
+
+setupDocker() {
+  if  read -q "?Would you like to install Docker? (y/n): "  ; then
+  	echo "::: Installing Docker ..."
+  	brew install --cask docker
+  else
+    echo
+  fi;
+}
+
+setupTerraform() {
+  if  read -q "?Would you like to install Terraform? (y/n): "  ; then
+      echo "::: Installing Terraform ..."
+      brew tap hashicorp/tap
+  	brew install hashicorp/tap/terraform
+  	brew upgrade hashicorp/tap/terraform
+  	echo ::: Terraform OK
+  else
+    echo
+  fi;
+}
+
+setupSlack() {
+  if read -q "?Would you like to install Slack? (y/n): "  ; then
     echo "::: Installing Slack ..."
-	brew install --cask slack
-fi;
+  	brew install --cask slack
+  else
+      echo
+  fi;
+}
 
-if  read -q "?Would you like to install Chrome? (y/n): "  ; then
+setupChrome() {
+  if read -q "?Would you like to install Chrome? (y/n): "  ; then
     echo "::: Installing Google Chrome ..."
-	brew install --cask google-chrome
-fi;
+  	brew install --cask google-chrome
+  else
+      echo
+  fi;
+}
 
-if  read -q "?Would you like to install DBeaver? (y/n): "  ; then
-	echo "::: Installing DBeaver ..."
-	brew install --cask dbeaver-community
-fi;
+setupDBeaver() {
+  if read -q "?Would you like to install DBeaver? (y/n): "  ; then
+  	echo "::: Installing DBeaver ..."
+  	brew install --cask dbeaver-community
+  else
+      echo
+  fi;
+}
 
-echo ""
+setupSpotify() {
+  if  read -q "?Would you like to install Spotify? (y/n): "  ; then
+  	echo "::: Installing Spotify ..."
+  	brew install --cask spotify
+  else
+      echo
+  fi;
+}
+
+setupUnArchiver() {
+  if  read -q "?Would you like to install UnArchiver? (y/n): "  ; then
+  	echo "::: Installing UnArchiver ..."
+  	brew install --cask the-unarchiver
+  else
+      echo
+  fi;
+}
+
+setupPostman() {
+  if  read -q "?Would you like to install Postman? (y/n): "  ; then
+  	echo "::: Installing Postman ..."
+  	brew install --cask postman
+  else
+      echo
+  fi;
+}
+
+setupVLC() {
+  if  read -q "?Would you like to install VLC? (y/n): "  ; then
+  	echo "::: Installing VLC ..."
+  	brew install --cask vlc
+  else
+      echo
+  fi;
+}
+
+setupPgAdmin() {
+  if  read -q "?Would you like to install PgAdmin4? (y/n): "  ; then
+  	echo "::: Installing PgAdmin4 ..."
+  	brew install --cask pgAdmin4
+  else
+      echo
+  fi;
+}
+
+setupWhatsapp() {
+  if  read -q "?Would you like to install Whatsapp? (y/n): "  ; then
+  	echo "::: Installing Whatsapp ..."
+  	brew install --cask whatsapp
+  else
+      echo
+  fi;
+}
+
+setupWebex() {
+  if  read -q "?Would you like to install Webex? (y/n): "  ; then
+  	echo "::: Installing Webex ..."
+  	brew install --cask webex-meetings
+  else
+      echo
+  fi;
+}
+
+setupOhMyZsh() {
+  if  read -q "?Would you like to install oh-my-zsh (y/n): "  ; then
+  	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  	compaudit | xargs chmod g-w,o-w
+  else
+    echo
+  fi;
+}
+
+setupEnvironmentVariables() {
+  if  read -q "?Would you like to configure your ENV (.zshenv, .zshrc) (y/n): "  ; then
+  	chmod +x env_config.sh
+  	source ./env_config.sh
+  else
+    echo
+  fi;
+}
+
+setupSshKeys() {
+  if  read -q "?Would you like to create SSH Keys (y/n): "  ; then
+  	echo "::: Type same filenames to be able to add the keys to the keymananger"
+  	echo "::: Generating SSH-KEY 1: id_rcc ]"
+  	ssh-keygen -t rsa -C "RCC"
+  	echo "::: Generating SSH-KEY 2: id_glb"
+  	ssh-keygen -t rsa -C "GLB"
+  	ssh-add -K ~/.ssh/id_rcc && ssh-add -K ~/.ssh/id_glb
+  else
+    echo
+  fi;
+}
+
+setupTLDR() {
+  if  read -q "?Would you like to install TLDR (Simple MAN info) (y/n): "  ; then
+  	echo "::: Installing TLDR ... "
+  	npm install -g tldr
+  else
+    echo
+  fi;
+}
+
+setupGitConfig() {
+  if  read -q "?Would you like to configure your git name and email (y/n): "  ; then
+    echo '::: Configuring git ...'
+    git config --global user.email "hernan.tenjo@gmail.com"
+    git config --global user.name "Hernan Tenjo"
+  else
+    echo
+  fi;
+}
+
+echo
 echo "######################################################################"
-echo "::: Installing Other Apps"
+echo "# Installing OSX Basics"
 echo "######################################################################"
-if  read -q "?Would you like to install Spotify? (y/n): "  ; then
-	echo "::: Installing Spotify ..."
-	brew install --cask spotify
-fi;
+requestPrivileges
+setupOsxUpdates
+setupXCode
+setupCocoaPods
+setupHomebrew
 
-if  read -q "?Would you like to install Unarchiver? (y/n): "  ; then
-	echo "::: Installing Unarchiver ..."
-	brew install --cask the-unarchiver
-fi;
-
-if  read -q "?Would you like to install Postman? (y/n): "  ; then
-	echo "::: Installing Postman ..."
-	brew install --cask postman
-fi;
-
-if  read -q "?Would you like to install VLC? (y/n): "  ; then
-	echo "::: Installing VLC ..."
-	brew install --cask vlc
-fi;
-
-if  read -q "?Would you like to install PgAdmin4? (y/n): "  ; then
-	echo "::: Installing PgAdmin4 ..."
-	brew install --cask pgAdmin4
-fi;
-
-if  read -q "?Would you like to install Whatsapp? (y/n): "  ; then
-	echo "::: Installing Whatsapp ..."
-	brew install --cask whatsapp
-fi;
-
-if  read -q "?Would you like to install Webex? (y/n): "  ; then
-	echo "::: Installing Webex ..."
-	brew install --cask webex-meetings
-fi;
-
-echo ""
+echo
 echo "######################################################################"
-echo "::: Environment Config 												"
+echo "# Installing Java Tools"
 echo "######################################################################"
+setupJEnv
+setupOracleJDK
+setupOpenJDK
+setupMaven
+setupGradle
+setupIntelliJCE
 
-if  read -q "?Would you like to install oh-my-zsh (y/n): "  ; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-	compaudit | xargs chmod g-w,o-w
-fi;
-
-if  read -q "?Would you like to configure your ENV (.zshenv, .zshrc) (y/n): "  ; then
-	chmod +x env_config.sh
-	source ./env_config.sh
-fi;
-
-if  read -q "?Would you like to create SSH Keys (y/n): "  ; then
-	echo "::: Type same filenames to be able to add the keys to the keymananger"
-	echo "::: Generating SSH-KEY 1: id_rcc ]"
-	ssh-keygen -t rsa -C "RCC"
-	echo "::: Generating SSH-KEY 2: id_glb"
-	ssh-keygen -t rsa -C "GLB"
-	ssh-add -K ~/.ssh/id_rcc && ssh-add -K ~/.ssh/id_glb
-fi;
-
-if  read -q "?Would you like to install TLDR (Simple MAN info) (y/n): "  ; then
-	echo "::: Installing TLDR ... "
-	npm install -g tldr
-fi;
-
-echo ""
+echo
 echo "######################################################################"
-echo "::: Apps to Install Manually"
+echo "# Installing Other Languages"
+echo "######################################################################"
+setupGo
+setupFlutter
+
+echo
+echo "######################################################################"
+echo "# Installing Web Tools"
+echo "######################################################################"
+setupNodeJS
+setupYarn
+setupGulp
+setupWGet
+
+echo
+echo "######################################################################"
+echo "# Installing Additional DevTools"
+echo "######################################################################"
+setupITerm
+setupVSCode
+setupVSCodeExtensions
+setupVsCodeFlutterExtension
+setupVsCodeJavaExtension
+
+echo
+echo "######################################################################"
+echo "# Installing DevOps Tools"
+echo "######################################################################"
+setupDocker
+setupTerraform
+
+echo
+echo "######################################################################"
+echo "# Installing desktop Apps"
+echo "######################################################################"
+setupSlack
+setupChrome
+setupDBeaver
+setupSpotify
+setupUnArchiver
+setupPostman
+setupVLC
+setupPgAdmin
+setupWhatsapp
+setupWebex
+
+echo
+echo "######################################################################"
+echo "# Environment Config"
+echo "######################################################################"
+setupOhMyZsh
+setupEnvironmentVariables
+setupSshKeys
+setupTLDR
+setupGitConfig
+
+echo
+echo "######################################################################"
+echo "# Apps to Install Manually"
 echo "######################################################################"
 echo "Android Studio (Go to: https://developer.android.com/studio#downloads)"
 echo "AnyDesk (Remote desktop)"
@@ -304,6 +500,7 @@ echo "MS OFFICE"
 echo "Todoist.app (TODOs Application)"
 echo "TuneIn.app (Music)"
 
+echo
 echo "######################################################################"
-echo "::: CONGRATULATIONS SETUP FINISHED !!!"
+echo "# CONGRATULATIONS SETUP FINISHED !!!"
 echo "######################################################################"

@@ -50,8 +50,4 @@ killall Dock
 source ~/.zshenv
 source ~/.zshrc
 
-echo '::: Configuring git ...'
-git config --global user.email "zerovirus23@gmail.com"
-git config --global user.name "Hernan Tenjo"
-
-echo ::: Environment config LOADED OK 
+echo ::: Environment config LOADED OK
