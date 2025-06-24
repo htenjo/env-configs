@@ -32,6 +32,9 @@ brew install --cask iterm2
 log "Instalando Visual Studio Code..."
 brew install --cask visual-studio-code
 
+log "Instalando Filezilla..."
+brew install --cask filezilla
+
 log "¿Qué versión de IntelliJ IDEA querés instalar?"
 echo "1) Community (gratis)"
 echo "2) Ultimate (requiere licencia)"
